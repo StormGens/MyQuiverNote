@@ -1,0 +1,9 @@
+{
+  "title": "详解Activity启动模式（一）一些相关的知识点",
+  "cells": [
+    {
+      "type": "markdown",
+      "data": "本系列将分三篇文章详细分析Android中Activity启动模式相关的林林总总。\n1. 详解Activity启动模式（一）一些相关的知识点\n2. 详解Activity启动模式（二）Activity的四种启动模式——LaunchMode\n3. 详解Activity启动模式（三）Intent Flags\n\n在Androi的应用程序中，大家最常用的组件莫过于Activity了。要打造一款体验良好的应用，界面的引导和跳转是值得深入的重要内容。从用户角度来讲，与页面的跳转逻辑关联比较紧密的概念是Task(任务)和Back Stack（回退栈）。而Task和Back Stack深受Activity的启动模式的影响。\n\n在开始讨论Activity启动模式之前，我们首先来了解下相关的知识点。\n#牵涉到的几个概念。\n## Application\nApplication简单翻译过来就是“应用”或“应用程序”，也就是我们常用的一个`APP`。从程序维度简单来讲，Application就是一个个组件的集合，包含四大组件等所有内容。Mainfest文件中注册了所有用到的组件信息。\n## Task和Back Stack\nTask是一个从用户角度出发的概念，是一些Activity的组合，是在程序运行时针对Activity存在于FrameWork层的概念。Task内的activity们以栈的形式组织起来，控制界面的跳转和返回也就是我们所了解的back stack。\n另外栈不仅仅只包含自身程序的Activity，他也可以跨应用包含其他应用的Activity，这样有利于保障用户体验，维护用户操作体验上的完整性。\n例如，在我们的应用中的一个Activity A中点击发送邮件，会启动邮件程序的一个Activity B来发送邮件，这两个activity是存在于不同app中的，但是被系统放在一个任务中，这样当发送完邮件后，用户按back键返回，可以返回到原来的Activity A中，这样就确保了用户体验。\n## Process\nProcess一般翻译为进程，进程是操作系统层级的概念。从应用程序的角度，我们的APK程序运行于Dalvik中或者ART虚拟机中，每个程序默认占用一个进程。开发者也可以在Mainfest中用process属性指定每个组件所运行的进程名。如：\n```\n <activity android:name=\".MyActivity\" android:label=\"@string/app_name\"\n     android:process=\":remote\">\n </activity>\n\n```\n# Activity 的几种属性\n1. android:taskAffinity\n> 简单翻译为task的亲属关系。也就是该Activity所属的Task栈。是否定义了该属性，对接下来讨论到的singleTask影响甚大：如果设置了Activity的taskAffinity属性值，Activity将在TaskName为指定值的独立Task中启动，否则，将在原来的默认Task中。这将在接下来的系列文章详解。\n\n2. android:allowTaskReparenting\n> 默认false，程序A已经启动了数个Activity，其中包含Activity1，如果这个Activity1拥有该属性，当程序B也要启动它的时候，其可宿主到程序B内。\n3. android:alwaysRetainTaskState\n> 默认false，操作系统会在程序长时间不会动的时候，清除Task状态，如果开启这个，系统会继续保持直到再次打开，只对根Activity生效\n4. android:clearTaskOnLaunch\n> 默认false，如果开启，从桌面重新进入程序时，只会存在根Activity，如有其他程序的Activity，他们将会寻找宿主，这个属性也只对根生效\n5. android:finishOnTaskLaunch\n> 默认false，如果开启，程序重新启动，会销毁所有存在的Activity，也只对根Activity生效\n\n\n\n"
+    }
+  ]
+}

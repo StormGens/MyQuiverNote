@@ -1,0 +1,9 @@
+{
+  "title": "Android消息机制（五）：实战",
+  "cells": [
+    {
+      "type": "markdown",
+      "data": "首先来看一下如果一个线程想实现消息循环应该怎么做，以HandlerThread为例：\n\npublic void run() {\n    mTid = Process.myTid();\n    Looper.prepare();\n    synchronized (this) {\n        mLooper = Looper.myLooper();\n        notifyAll();\n    }\n    Process.setThreadPriority(mPriority);\n    onLooperPrepared();\n    Looper.loop();\n    mTid = -1;\n}\n\n主要是红色标明的两句，首先调用prepare初始化MessageQueue与Looper，然后调用loop进入消息循环。先看一下Looper.prepare。\n\npublic static void prepare() {\n    prepare(true);\n}\n\nprivate static void prepare(boolean quitAllowed) {\n    if (sThreadLocal.get() != null) {\n        throw new RuntimeException(\"Only one Looper may be created per thread\");\n    }\n    sThreadLocal.set(new Looper(quitAllowed));\n}\n\n重载函数，quitAllowed默认为true，从名字可以看出来就是消息循环是否可以退出，默认是可退出的，Main线程（UI线程）初始化消息循环时会调用prepareMainLooper，传进去的是false。使用了ThreadLocal，每个线程可以初始化一个Looper。"
+    }
+  ]
+}

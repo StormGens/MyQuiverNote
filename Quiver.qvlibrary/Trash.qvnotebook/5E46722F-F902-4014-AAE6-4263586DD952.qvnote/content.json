@@ -1,0 +1,9 @@
+{
+  "title": "详解Activity启动模式（二）四种启动模式",
+  "cells": [
+    {
+      "type": "markdown",
+      "data": "\n# Intent Flags\n1. Intent.FLAG_ACTIVITY_NEW_TASK\n2. Intent.FLAG_ACTIVITY_CLEAR_TOP\n3. Intent.FLAG_ACTIVITY_SINGLE_TOP\n4. Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT\n5. Intent.FLAG_ACTIVITY_REORDER_TO_FRONT\n6. Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED\n7. Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS"
+    }
+  ]
+}
